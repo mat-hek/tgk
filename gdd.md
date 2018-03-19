@@ -6,6 +6,7 @@ Zamierzamy stworzyć wyścigówkę w klimacie raczej okołorajdowym, której gł
 * Sterowanie telefonem
 * Multiplayer przez split screen dla 2 graczy
 * Na trasie pojawiają się kieliszki z krupnikiem, których zebranie powoduje symulację jazdy pod wpływem (prowadzi się trudniej, ale za to świat staje się bardziej kolorowy)
+* Jak tyle się uda, będziemy szczęśliwi
 * Podrasowana grafika (samochód nie jest już prostopadłościanem!)
 * Nierówności na drodze / poboczu
 * Telefon wibruje przy wjeździe na nierówności
