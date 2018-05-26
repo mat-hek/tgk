@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <title>Drunk Rally</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
+  </head>
+  <body style='background-color:black;color:white;font-family:arial;margin:0px;writing-mode:vertical-rl'>
+    <div style='position:absolute;height:100%;width:100%;pointer-events:none;z-index:1'>
+      <div id='info' style='margin:10px'></div>
+    </div>
+    <div id='handbrake' style='position:absolute;width:100%;height:50%;'></div>
+    <div id='accelerate' style='position:absolute;top:50%;width:100%;height:50%;'></div>
+  </body>
+  <script>
+    var body = document.body
+    var info = document.getElementById('info')
+    var handbrake = document.getElementById('handbrake')
+    var accelerate = document.getElementById('accelerate')
+    if (window.DeviceMotionEvent != undefined) {
+      var ws = new WebSocket('ws://' + window.location.hostname + ':5445/control')
+      var position = {x: 0, y: 0, hb: 0}
+      window.ondevicemotion = function(e){
+        var acc = e.accelerationIncludingGravity
+        position.y = acc.y
+      }
+      update_acc = function(e){
+        body.style.backgroundColor="green"
+        position.x = e.targetTouches[0].clientX/body.clientWidth*2 - 1
+        info.innerHTML = position.x
+      }
+      accelerate.addEventListener('touchstart', update_acc, false);
+      accelerate.addEventListener('touchmove', update_acc, false);
+      accelerate.addEventListener('touchend', function(){
+        body.style.backgroundColor="black"
+        position.x = 0
+      }, false);
+      handbrake.addEventListener('touchstart', function(){
+        body.style.backgroundColor="gray";
+        position.hb = 1},
+      false);
+      handbrake.addEventListener('touchend', function(){
+        body.style.backgroundColor="black";
+        position.hb = 0
+      }, false);
+      ws.onopen = function() {
+        setInterval(
+          function(){
+            ws.send(JSON.stringify(position))
+          },
+          100
+        )
+      }
+    } else {
+      info.innerHTML = "accelerometer unsupported"
+    }
+  </script>
+</html>

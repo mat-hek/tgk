@@ -312,13 +312,13 @@ public class CarControlCS : MonoBehaviour {
 			}
 		}
 
-		float steer = maxSteer * Mathf.Min(0.7f, Mathf.Max(Input.GetAxis ("Horizontal"), -0.7f));//* (1 - Mathf.Pow (currentSpeed / maxSpeed, 1)) ;
+		float steer = maxSteer * Input.GetAxis ("Horizontal");//* (1 - Mathf.Pow (currentSpeed / maxSpeed, 1)) ;
 		wheels.wheelFL.steerAngle = steer;
 		wheels.wheelFR.steerAngle = steer;
 		if (Input.GetButton("Jump"))//pressing space triggers the car's handbrake
 		{
-			wheels.wheelFL.brakeTorque = handBrakeTorque;
-			wheels.wheelFR.brakeTorque = handBrakeTorque;
+			wheels.wheelFL.brakeTorque = Mathf.Infinity;
+			wheels.wheelFR.brakeTorque = Mathf.Infinity;
 			wheels.wheelRL.brakeTorque = handBrakeTorque;
 			wheels.wheelRR.brakeTorque = handBrakeTorque;
 		}

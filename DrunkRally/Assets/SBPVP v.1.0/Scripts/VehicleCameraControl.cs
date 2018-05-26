@@ -13,6 +13,7 @@ public class VehicleCameraControl : MonoBehaviour
 	public float rotationDamping = 3.0f;
 	public float defaultFOV = 60f;
 	public float zoomMultiplier = 0.3f;
+    private float prevCarHeight;
 
 	//read only
 		
@@ -21,6 +22,8 @@ public class VehicleCameraControl : MonoBehaviour
 		// Early out if we don't have a target
 		if (!playerCar)
 			return;
+
+        prevCarHeight = playerCar.position.y;
 		
 		playerRigid = playerCar.GetComponent<Rigidbody>();
 
@@ -47,7 +50,8 @@ public class VehicleCameraControl : MonoBehaviour
 		
 		// Calculate the current rotation angles.
 		Vector3 wantedRotationAngle = playerCar.eulerAngles;
-		float wantedHeight = playerCar.position.y + height;
+        float wantedHeight = playerCar.position.y + height - Mathf.Min(1, (playerCar.position.y - prevCarHeight)*10);
+        prevCarHeight = playerCar.position.y;
 		float currentRotationAngle = transform.eulerAngles.y;
 		float currentHeight = transform.position.y;
 
