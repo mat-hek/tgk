@@ -12,12 +12,14 @@ namespace UnityStandardAssets.Vehicles.Car
         private WebSocketController wsController;
         [SerializeField] public GameObject wsControl;
 
-
+        public GameObject noiseGenerator;
+        private AlcoholNoiseGenerator alcoGen;
 
         private void Awake()
         {
             car = GetComponent<CarController>();
             wsController = wsControl.GetComponent<WebSocketController>();
+            alcoGen = noiseGenerator.GetComponent<AlcoholNoiseGenerator>();
         }
 
 
@@ -25,7 +27,7 @@ namespace UnityStandardAssets.Vehicles.Car
         {
             // pass the input to the car!
             float h = CrossPlatformInputManager.GetAxis("Horizontal");
-            if (h == 0) h = wsController.axis_y;
+            if (h == 0) h = alcoGen.ApplyNoise(wsController.axis_y);
             float v = CrossPlatformInputManager.GetAxis("Vertical");
             if (v == 0) v = wsController.axis_x;
             float handbrake = CrossPlatformInputManager.GetAxis("Jump");
