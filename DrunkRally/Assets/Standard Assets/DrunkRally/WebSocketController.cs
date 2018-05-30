@@ -12,6 +12,8 @@ namespace DrunkRally {
 		public float axis_x = 0f;
 		public float axis_y = 0f;
 		public float handbrake = 0f;
+        [SerializeField] private int httpPort;
+        [SerializeField] private int wsPort;
 
 		class WSInput {
 			public float x;
@@ -42,10 +44,11 @@ namespace DrunkRally {
             int port;
             string responseString;
 
-            public HTTPServer(IPAddress ip, int port) {
+            public HTTPServer(IPAddress ip, int port, int wsPort) {
                 this.ip = ip;
                 this.port = port;
-                responseString = File.ReadAllText("Assets/Standard Assets/DrunkRally/drunk_rally.html");
+                string responseSetPort = "<script>ws_port = " + wsPort + "</script>";
+                responseString = responseSetPort + File.ReadAllText("Assets/Standard Assets/DrunkRally/drunk_rally.html");
             }
 
             public void Start()
@@ -54,7 +57,7 @@ namespace DrunkRally {
                 {
                     using (HttpListener listener = new HttpListener())
                     {
-                        listener.Prefixes.Add("http://*:8445/");
+                        listener.Prefixes.Add("http://*:" + port + "/");
                         listener.Start();
                         while (true)
                         {
@@ -74,10 +77,10 @@ namespace DrunkRally {
         }
 
 		void Awake() {
-			var wsServer = new WebSocketServer (System.Net.IPAddress.Any, 5445);
+			var wsServer = new WebSocketServer (System.Net.IPAddress.Any, wsPort);
 			wsServer.AddWebSocketService<WSControl> ("/control", () => new WSControl (this));
 			wsServer.Start ();
-            var httpServer = new HTTPServer(System.Net.IPAddress.Any, 8445);
+            var httpServer = new HTTPServer(System.Net.IPAddress.Any, httpPort, wsPort);
             httpServer.Start();
 		}
 	}

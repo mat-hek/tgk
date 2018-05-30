@@ -36,6 +36,8 @@ namespace UnityStandardAssets.Vehicles.Car
         [SerializeField] private float m_RevRangeBoundary = 1f;
         [SerializeField] private float m_SlipLimit;
         [SerializeField] private float m_BrakeTorque;
+        [SerializeField] private float guiPos = 10;
+        [SerializeField] private Camera camera;
 
         private Quaternion[] m_WheelMeshLocalRotations;
         private Vector3 m_Prevpos, m_Pos;
@@ -366,7 +368,7 @@ namespace UnityStandardAssets.Vehicles.Car
 
         void OnGUI()
         {
-            GUI.Box(new Rect(10, 10, 70, 30), Mathf.Round(GetComponent<Rigidbody>().velocity.magnitude * 3.6f) + "km/h");
+            GUI.Box(new Rect(camera.pixelRect.xMin + 10, 10, 70, 30), Mathf.Round(GetComponent<Rigidbody>().velocity.magnitude * 3.6f) + "km/h");
         }
     }
 }

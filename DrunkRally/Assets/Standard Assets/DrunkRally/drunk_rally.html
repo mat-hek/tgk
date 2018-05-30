@@ -16,7 +16,7 @@
     var handbrake = document.getElementById('handbrake')
     var accelerate = document.getElementById('accelerate')
     if (window.DeviceMotionEvent != undefined) {
-      var ws = new WebSocket('ws://' + window.location.hostname + ':5445/control')
+      var ws = new WebSocket('ws://' + window.location.hostname + ':' + ws_port + '/control')
       var position = {x: 0, y: 0, hb: 0}
       window.ondevicemotion = function(e){
         var acc = e.accelerationIncludingGravity
