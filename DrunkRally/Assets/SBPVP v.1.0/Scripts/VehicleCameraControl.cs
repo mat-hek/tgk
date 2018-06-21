@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.ImageEffects;
 using System.Collections;
 
 public class VehicleCameraControl : MonoBehaviour
@@ -79,6 +80,20 @@ public class VehicleCameraControl : MonoBehaviour
 		// Always look at the target
 		transform.LookAt (playerCar);
 
+
+		float alcohol_level = playerCar.GetComponentInChildren<AlcoholNoiseGenerator>().alcohol_level;
+		if(alcohol_level > 0) {
+			BlurOptimized blur = GetComponent<BlurOptimized>();
+			blur.enabled = true;
+			blur.blurSize = 1.0f + 3 * alcohol_level;
+			if(alcohol_level > 0.6) {
+				blur.blurIterations = 3;
+			} else {
+				blur.blurIterations = 2;
+			}
+		} else {
+			GetComponent<BlurOptimized>().enabled = false;
+		}
 
 	}
 

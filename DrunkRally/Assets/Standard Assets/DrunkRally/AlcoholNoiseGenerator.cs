@@ -8,6 +8,8 @@ public class AlcoholNoiseGenerator : MonoBehaviour {
         private float last_bottle;
         private const float CYCLE = 2*Mathf.PI;
 
+        private float[] inputBuffer = new float[30];
+
         private void Awake() {
             last_bottle = Time.time;
         }
